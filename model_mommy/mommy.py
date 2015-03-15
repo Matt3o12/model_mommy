@@ -31,6 +31,11 @@ try:
 except ImportError:
     GenericIPAddressField = IPAddressField
 
+try:
+    from django.db.models import BinaryField
+except ImportError:
+    BinaryField = None
+
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv4_address
 try:
@@ -53,7 +58,7 @@ mock_file_jpeg = join(dirname(__file__), 'mock-img.jpeg')
 mock_file_txt = join(dirname(__file__), 'mock_file.txt')
 
 
-#TODO: improve related models handling
+# TODO: improve related models handling
 foreign_key_required = [lambda field: ('model', field.related.parent_model)]
 
 MAX_MANY_QUANTITY = 5
@@ -142,6 +147,9 @@ default_mapping = {
 
     ContentType: generators.gen_content_type,
 }
+
+if BinaryField:
+    default_mapping[BinaryField] = generators.gen_byte_string
 
 
 class ModelFinder(object):
