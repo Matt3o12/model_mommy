@@ -60,11 +60,8 @@ __all__ = [
     'DateFieldsFilling', 'FillingIntFields', 'FillingPositiveIntFields',
     'FillingOthersNumericFields', 'FillingFromChoice', 'URLFieldsFilling',
     'FillingEmailField', 'FillingIPAddressField', 'FillingGenericForeignKeyField', 'FillingFileField',
-    'FillingImageFileField', 'TimeFieldsFilling', 'FillingCustomFields',
+    'FillingImageFileField', 'TimeFieldsFilling', 'FillingCustomFields', 'BinaryFieldsFilling'
 ]
-
-if BinaryField:
-    __all__.append('BinaryFieldsFilling')
 
 
 def assert_not_raise(method, parameters, exception):
@@ -117,8 +114,8 @@ class StringFieldsFilling(FieldFillingTestCase):
         self.assertIsInstance(self.person.bio, text_type)
 
 
-class BinaryFieldsFilling(FieldFillingTestCase):
-    if BinaryField:
+if BinaryField:
+    class BinaryFieldsFilling(FieldFillingTestCase):
         def test_fill_BinaryField_with_random_binary(self):
             name_hash_field = Person._meta.get_field('name_hash')
             self.assertIsInstance(name_hash_field, BinaryField)
